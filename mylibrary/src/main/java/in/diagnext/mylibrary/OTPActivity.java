@@ -4,7 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -141,7 +141,7 @@ public class OTPActivity extends AppCompatActivity {
                     URL myURL=null;
                     BufferedReader reader=null;
 
-                    String encoded_message= URLEncoder.encode("Dear Customer, Your OTP for "+getResources().getString(R.string.app_name).toLowerCase()+" login is: "+otp+". Do not share this OTP with anyone.");
+                    String encoded_message= URLEncoder.encode("Dear Customer, Your OTP for diagnext steps login is: "+otp+". Do not share this OTP with anyone.");
 
                     String mainUrl="http://control.msg91.com/api/sendotp.php?";
 
