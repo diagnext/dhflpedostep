@@ -63,7 +63,7 @@
                     android:layout_weight="1"
                     android:text="Cancel"
                     android:layout_marginRight="2dp"
-                    android:background="#008577"
+                    android:background="#008FFB"
                     android:textColor="#FFFFFF"/>
 
                 <Button
@@ -73,7 +73,7 @@
                     android:layout_weight="1"
                     android:text="Save"
                     android:layout_marginLeft="2dp"
-                    android:background="#008577"
+                    android:background="#008FFB"
                     android:textColor="#FFFFFF"/>
             </LinearLayout>
         </LinearLayout>

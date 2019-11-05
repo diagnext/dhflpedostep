@@ -216,7 +216,7 @@ public class d_GraphActivity extends AppCompatActivity {
         // bardataset.setColor(R.color.blue);
         bardataset.setColor(Color.rgb(255,215,0));
         bardataset.setValueTextSize(16);
-        bardataset.setValueTextColor(Color.rgb(175,238,238));
+        bardataset.setValueTextColor(Color.rgb(86,143,255));
         chart.setData(data);
 
 

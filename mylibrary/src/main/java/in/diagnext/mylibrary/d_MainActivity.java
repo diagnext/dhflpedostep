@@ -46,8 +46,8 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
     private TextView time_tv;
     private int stepCount;
     private TextView tvSteps;
-    private ImageView BtnStart;
-    private ImageView BtnStop;
+ //   private ImageView BtnStart;
+ //   private ImageView BtnStop;
     private SharedPreferences prefs;
 
 
@@ -104,51 +104,35 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
         distance_tv = (TextView) findViewById(R.id.distance_tv);
         calories_tv = (TextView) findViewById(R.id.calories_tv);
         time_tv = (TextView) findViewById(R.id.time_tv);
-        BtnStart = (ImageView) findViewById(R.id.btn_start);
-        BtnStop = (ImageView) findViewById(R.id.btn_stop);
+      //  BtnStart = (ImageView) findViewById(R.id.btn_start);
+      //  BtnStop = (ImageView) findViewById(R.id.btn_stop);
 
 
         prefs = getSharedPreferences("pedometer", Context.MODE_PRIVATE);
         height = prefs.getString("height","175");
         userId = prefs.getString("userId", "");
 
-        BtnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-
-                sensorManager.registerListener(d_MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
-                BtnStart.setVisibility(View.GONE);
-                BtnStop.setVisibility(View.VISIBLE);
-
-                prefs.edit().putInt("start", 1).commit();
 
 
-                if (Build.VERSION.SDK_INT >= 26) {
-                    API26Wrapper.startForegroundService(d_MainActivity.this, new Intent(d_MainActivity.this, d_SensorListener.class));
-                } else {
-                    startService(new Intent(d_MainActivity.this, d_SensorListener.class));
+      //  BtnStart.setOnClickListener(new View.OnClickListener() {
+      //      @Override
+      //      public void onClick(View arg0) {
 
-                }
-            }
-        });
+
+      //      }
+      //  });
 
 
 
-        BtnStop.setOnClickListener(new View.OnClickListener() {
+       // BtnStop.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View arg0) {
+        //    @Override
+        //    public void onClick(View arg0) {
 
-                sensorManager.unregisterListener(d_MainActivity.this);
-                BtnStart.setVisibility(View.VISIBLE);
-                BtnStop.setVisibility(View.GONE);
 
-                prefs.edit().putInt("start", 0).commit();
 
-                stopService(new Intent(getBaseContext(), d_SensorListener.class));
-
-            }
-        });
+       //     }
+       // });
 
 
     }
@@ -173,8 +157,8 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
         if(checkState==1)
         {
             sensorManager.registerListener(d_MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
-            BtnStart.setVisibility(View.GONE);
-            BtnStop.setVisibility(View.VISIBLE);
+           // BtnStart.setVisibility(View.GONE);
+          //  BtnStop.setVisibility(View.VISIBLE);
 
             if (Build.VERSION.SDK_INT >= 26) {
                 API26Wrapper.startForegroundService(d_MainActivity.this, new Intent(d_MainActivity.this, d_SensorListener.class));
@@ -197,7 +181,7 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
         }
         //dDatabase.close();
 
-
+        onLogin();
     }
 
     @Override
@@ -264,6 +248,14 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
     }
 
     public void logout_click(View view) {
+
+        sensorManager.unregisterListener(d_MainActivity.this);
+      //  BtnStart.setVisibility(View.VISIBLE);
+      //  BtnStop.setVisibility(View.GONE);
+        prefs.edit().putInt("start", 0).commit();
+        stopService(new Intent(getBaseContext(), d_SensorListener.class));
+
+
         prefs.edit().clear().commit();
         stopService(new Intent(getBaseContext(), d_SensorListener.class));
         Intent intent = new Intent(d_MainActivity.this, d_UserLogin.class);
@@ -271,7 +263,21 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
         finish();
     }
 
+    public void onLogin()
+    {
+        sensorManager.registerListener(d_MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
+        //BtnStart.setVisibility(View.GONE);
+       // BtnStop.setVisibility(View.VISIBLE);
+        prefs.edit().putInt("start", 1).commit();
 
+
+        if (Build.VERSION.SDK_INT >= 26) {
+            API26Wrapper.startForegroundService(d_MainActivity.this, new Intent(d_MainActivity.this, d_SensorListener.class));
+        } else {
+            startService(new Intent(d_MainActivity.this, d_SensorListener.class));
+
+        }
+    }
 
 
 

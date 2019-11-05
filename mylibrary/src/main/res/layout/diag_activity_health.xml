@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bgwallpapers"
     tools:context=".d_HealthActivity">
 
     <androidx.cardview.widget.CardView
@@ -13,9 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="8dp"
-        android:backgroundTint="#00574B"
+        android:backgroundTint="#008FFB"
         app:cardElevation="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -33,7 +32,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:text=""
-                android:textColor="#98C9C4"
+                android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -48,8 +47,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:text=""
-                android:textColor="#98C9C4"
-                android:textSize="24sp"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -77,9 +76,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text=""
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:textColor="#7A7979"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />
@@ -89,9 +87,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="178dp"
         android:text="Weight"
-        android:textColor="#00574B"
+        android:textColor="#3D3C3C"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,11 +99,11 @@
         android:id="@+id/add_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="178dp"
         android:layout_marginEnd="16dp"
         android:onClick="addWeight_Click"
         android:text="Add"
-        android:textColor="#FFEB3B"
+        android:textColor="#3D3C3C"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -116,7 +114,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="225dp"
+        android:layout_marginTop="275dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="60dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -130,7 +128,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
-        android:backgroundTint="#98C9C4"
+        android:backgroundTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -143,7 +141,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:text="Current"
-        android:textColor="#98C9C4"
+        android:textColor="#7A7979"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview1" />
 
@@ -155,7 +153,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:text="Last 30 days"
-        android:textColor="#98C9C4"
+        android:textColor="#7A7979"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_btn" />
 
@@ -166,9 +164,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="4dp"
         android:text="0.0 Kg"
-        android:textColor="#FFFFFF"
+        android:textColor="#3D3C3C"
         android:textSize="20dp"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -179,9 +176,21 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="26dp"
         android:text="0.0 Kg"
-        android:textColor="#FFFFFF"
+        android:textColor="#3D3C3C"
         android:textSize="20dp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Health"
+        android:textColor="#3D3C3C"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

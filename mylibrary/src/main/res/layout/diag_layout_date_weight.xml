@@ -10,7 +10,7 @@
         android:id="@+id/date_picker"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#00574B"
+        android:background="#0960ca"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:textColor="#FFFFFF"
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="2dp"
                     android:layout_weight="1"
-                    android:background="#008577"
+                    android:background="#008FFB"
                     android:text="Cancel"
                     android:textColor="#FFFFFF" />
 
@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
                     android:layout_weight="1"
-                    android:background="#008577"
+                    android:background="#008FFB"
                     android:text="Save"
                     android:textColor="#FFFFFF" />
             </LinearLayout>

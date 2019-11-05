@@ -608,9 +608,9 @@ public class d_HealthActivity extends AppCompatActivity {
                     set1.setLineWidth(3f);
                     set1.setCircleRadius(4f);
                     set1.setValueTextSize(14);
-                    set1.setCircleColor(Color.rgb(240, 238, 70));
+                    set1.setCircleColor(Color.rgb(0, 0, 0));
                     set1.setColor(Color.rgb(255,165,0));
-                    set1.setValueTextColor(Color.rgb(175,238,238));
+                    set1.setValueTextColor(Color.rgb(86,143,255));
 
                     ArrayList<ILineDataSet> sets = new ArrayList<>();
                     sets.add(set1);
