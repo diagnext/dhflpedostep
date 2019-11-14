@@ -278,7 +278,7 @@ public class d_SensorListener extends Service implements SensorEventListener, d_
         // form parameters
         RequestBody formBody = new FormBody.Builder()
                 .add("member_id", userId)
-                .add("step_count", String.valueOf(stepCount))
+                .add("step_count", String.valueOf(prefs.getInt("totalSteps", 0)))
                 .build();
 
         Request request = new Request.Builder()

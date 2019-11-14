@@ -207,6 +207,9 @@ public class d_UserLogin extends AppCompatActivity {
             editor.putBoolean("gender", gender);
             editor.putString("height", "175");
             editor.putString("weight", "78");
+            editor.putInt("totalSteps", Integer.valueOf(data.getStep_count()));
+            editor.putString("policyStart", data.getPolicy_start_date());
+            editor.putString("policyExp", data.getPolicy_end_date());
             editor.commit();
 
             Intent intent = new Intent(d_UserLogin.this, d_MainActivity.class);

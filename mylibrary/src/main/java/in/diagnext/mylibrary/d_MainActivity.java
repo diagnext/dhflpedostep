@@ -9,12 +9,15 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +25,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import in.diagnext.mylibrary.util.API26Wrapper;
 import in.diagnext.mylibrary.util.Util;
@@ -31,6 +38,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import xyz.gracefulife.stepindicator.StepsView;
+
+import static java.util.Calendar.DATE;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.YEAR;
+
 
 public class d_MainActivity extends AppCompatActivity  implements SensorEventListener {
     private d_Database dDatabase;
@@ -49,6 +62,9 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
  //   private ImageView BtnStart;
  //   private ImageView BtnStop;
     private SharedPreferences prefs;
+    private TextView totalSteps_txt;
+    private TextView policyStart_txt;
+    private TextView policyExp_txt;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -86,6 +102,9 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
         }
     };
     private String userId;
+    private StepsView indicatorSteps;
+    private int differenceYr=0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,35 +125,135 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
         time_tv = (TextView) findViewById(R.id.time_tv);
       //  BtnStart = (ImageView) findViewById(R.id.btn_start);
       //  BtnStop = (ImageView) findViewById(R.id.btn_stop);
+        totalSteps_txt= (TextView)findViewById(R.id.totalSteps_txt);
+        policyStart_txt= (TextView)findViewById(R.id.policyStart_txt);
+        policyExp_txt= (TextView)findViewById(R.id.policyExp_txt);
+        indicatorSteps=(xyz.gracefulife.stepindicator.StepsView)findViewById(R.id.step_view);
 
 
         prefs = getSharedPreferences("pedometer", Context.MODE_PRIVATE);
         height = prefs.getString("height","175");
         userId = prefs.getString("userId", "");
+        int totalSteps = prefs.getInt("totalSteps", 0);
+        totalSteps_txt.setText(String.valueOf(totalSteps));
+        policyStart_txt.setText("Policy Start date : " +prefs.getString("policyStart", ""));
+        policyExp_txt.setText("Policy Exp date : " +prefs.getString("policyExp", ""));
 
 
 
-      //  BtnStart.setOnClickListener(new View.OnClickListener() {
-      //      @Override
-      //      public void onClick(View arg0) {
+        String policyStarts = prefs.getString("policyStart", "");
+        String policyExp = prefs.getString("policyExp", "");
+     try {
+         Date dateStart = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(policyStarts);
+         Date dateEnd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(policyExp);
+         differenceYr=getYear(dateStart,dateEnd);
+     }
+     catch (Exception ex)
+     {
 
 
-      //      }
-      //  });
-
-
-
-       // BtnStop.setOnClickListener(new View.OnClickListener() {
-
-        //    @Override
-        //    public void onClick(View arg0) {
-
-
-
-       //     }
-       // });
-
-
+         prefs.edit().clear().commit();
+         stopService(new Intent(getBaseContext(), d_SensorListener.class));
+         Intent intent = new Intent(d_MainActivity.this, d_UserLogin.class);
+         startActivity(intent);
+         finish();
+     }
+        if(differenceYr <=1) {
+            if (totalSteps >= 1200000)
+                indicatorSteps.setLabels(new String[]{"1,200,000 \n (3%)", "1,600,000 \n (5%)", "2,000,000 \n (7%)", "2,500,000 \n (10%)"})
+                        .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
+                        .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
+                        .setCompletedPosition(1)
+                        .drawView();
+            else if (totalSteps >= 1600000)
+                indicatorSteps.setLabels(new String[]{"1,200,000 \n (3%)", "1,600,000 \n (5%)", "2,000,000 \n (7%)", "2,500,000 \n (10%)"})
+                        .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
+                        .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
+                        .setCompletedPosition(2)
+                        .drawView();
+            else if (totalSteps >= 2000000)
+                indicatorSteps.setLabels(new String[]{"1,200,000 \n (3%)", "1,600,000 \n (5%)", "2,000,000 \n (7%)", "2,500,000 \n (10%)"})
+                        .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
+                        .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
+                        .setCompletedPosition(3)
+                        .drawView();
+            else if (totalSteps >= 2500000)
+                indicatorSteps.setLabels(new String[]{"1,200,000 \n (3%)", "1,600,000 \n (5%)", "2,000,000 \n (7%)", "2,500,000 \n (10%)"})
+                        .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
+                        .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
+                        .setCompletedPosition(4)
+                        .drawView();
+            else
+                indicatorSteps.setLabels(new String[]{"1,200,000 \n (3%)", "1,600,000 \n (5%)", "2,000,000 \n (7%)", "2,500,000 \n (10%)"})
+                        .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
+                        .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
+                        .setCompletedPosition(0)
+                        .drawView();
+        }
+        else if(differenceYr ==2) {
+            if (totalSteps >= 2520000)
+                indicatorSteps.setLabels(new String[]{"2,520,000 \n (3%)", "3,360,000 \n (5%)", "4,200,000 \n (7%)", "5,200,000 \n (10%)"})
+                        .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
+                        .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
+                        .setCompletedPosition(1)
+                        .drawView();
+            else if (totalSteps >= 3360000)
+                indicatorSteps.setLabels(new String[]{"2,520,000 \n (3%)", "3,360,000 \n (5%)", "4,200,000 \n (7%)", "5,200,000 \n (10%)"})
+                        .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
+                        .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
+                        .setCompletedPosition(2)
+                        .drawView();
+            else if (totalSteps >= 4200000)
+                indicatorSteps.setLabels(new String[]{"2,520,000 \n (3%)", "3,360,000 \n (5%)", "4,200,000 \n (7%)", "5,200,000 \n (10%)"})
+                        .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
+                        .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
+                        .setCompletedPosition(3)
+                        .drawView();
+            else if (totalSteps >= 5200000)
+                indicatorSteps.setLabels(new String[]{"2,520,000 \n (3%)", "3,360,000 \n (5%)", "4,200,000 \n (7%)", "5,200,000 \n (10%)"})
+                        .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
+                        .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
+                        .setCompletedPosition(4)
+                        .drawView();
+            else
+                indicatorSteps.setLabels(new String[]{"2,520,000 \n (3%)", "3,360,000 \n (5%)", "4,200,000 \n (7%)", "5,200,000 \n (10%)"})
+                        .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
+                        .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
+                        .setCompletedPosition(0)
+                        .drawView();
+        }
+        else if(differenceYr ==3) {
+            if (totalSteps >= 4200000)
+                indicatorSteps.setLabels(new String[]{"4,200,000 \n (3%)", "5,600,000 \n (5%)", "7,000,000 \n (7%)", "8,000,000 \n (10%)"})
+                        .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
+                        .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
+                        .setCompletedPosition(1)
+                        .drawView();
+            else if (totalSteps >= 5600000)
+                indicatorSteps.setLabels(new String[]{"4,200,000 \n (3%)", "5,600,000 \n (5%)", "7,000,000 \n (7%)", "8,000,000 \n (10%)"})
+                        .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
+                        .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
+                        .setCompletedPosition(2)
+                        .drawView();
+            else if (totalSteps >= 7000000)
+                indicatorSteps.setLabels(new String[]{"4,200,000 \n (3%)", "5,600,000 \n (5%)", "7,000,000 \n (7%)", "8,000,000 \n (10%)"})
+                        .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
+                        .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
+                        .setCompletedPosition(3)
+                        .drawView();
+            else if (totalSteps >= 8000000)
+                indicatorSteps.setLabels(new String[]{"4,200,000 \n (3%)", "5,600,000 \n (5%)", "7,000,000 \n (7%)", "8,000,000 \n (10%)"})
+                        .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
+                        .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
+                        .setCompletedPosition(4)
+                        .drawView();
+            else
+                indicatorSteps.setLabels(new String[]{"4,200,000 \n (3%)", "5,600,000 \n (5%)", "7,000,000 \n (7%)", "8,000,000 \n (10%)"})
+                        .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
+                        .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
+                        .setCompletedPosition(0)
+                        .drawView();
+        }
     }
 
 
@@ -145,43 +264,61 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
     @Override
     protected void onResume() {
         super.onResume();
+try {
+    sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+    accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-        dDatabase =new d_Database(this);
-        stepCount=0;
+    dDatabase = new d_Database(this);
+    stepCount = 0;
 
 
-        int checkState = prefs.getInt("start",0);
-        if(checkState==1)
-        {
-            sensorManager.registerListener(d_MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
-           // BtnStart.setVisibility(View.GONE);
-          //  BtnStop.setVisibility(View.VISIBLE);
+    int checkState = prefs.getInt("start", 0);
+    if (checkState == 1) {
+        sensorManager.registerListener(d_MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
+        // BtnStart.setVisibility(View.GONE);
+        //  BtnStop.setVisibility(View.VISIBLE);
 
-            if (Build.VERSION.SDK_INT >= 26) {
-                API26Wrapper.startForegroundService(d_MainActivity.this, new Intent(d_MainActivity.this, d_SensorListener.class));
-            } else {
-                startService(new Intent(d_MainActivity.this, d_SensorListener.class));
-            }
-
+        if (Build.VERSION.SDK_INT >= 26) {
+            API26Wrapper.startForegroundService(d_MainActivity.this, new Intent(d_MainActivity.this, d_SensorListener.class));
+        } else {
+            startService(new Intent(d_MainActivity.this, d_SensorListener.class));
         }
 
-
-        ArrayList<d_StepMaster> ss =new ArrayList<>();
-        ss= dDatabase.getSteps(String.valueOf(Util.getToday()));
-        if(ss.size()>0) {
-            tvSteps.setText(String.valueOf(ss.get(0).steps));
-            stepCount = ss.get(0).steps;
-
-            bindHealthDatas(stepCount);
+    }
 
 
-        }
-        //dDatabase.close();
+    ArrayList<d_StepMaster> ss = new ArrayList<>();
+    ss = dDatabase.getSteps(String.valueOf(Util.getToday()));
+    if (ss.size() > 0) {
 
-        onLogin();
+
+
+        tvSteps.setText(String.valueOf(ss.get(0).steps));
+        stepCount = ss.get(0).steps;
+
+        bindHealthDatas(stepCount);
+
+
+    }
+    //dDatabase.close();
+
+    onLogin();
+}
+catch (Exception ex)
+{
+    sensorManager.unregisterListener(d_MainActivity.this);
+    //  BtnStart.setVisibility(View.VISIBLE);
+    //  BtnStop.setVisibility(View.GONE);
+    prefs.edit().putInt("start", 0).commit();
+    stopService(new Intent(getBaseContext(), d_SensorListener.class));
+
+
+    prefs.edit().clear().commit();
+    stopService(new Intent(getBaseContext(), d_SensorListener.class));
+    Intent intent = new Intent(d_MainActivity.this, d_UserLogin.class);
+    startActivity(intent);
+    finish();
+}
     }
 
     @Override
@@ -199,6 +336,13 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
             ArrayList<d_StepMaster> ss =new ArrayList<>();
             ss= dDatabase.getSteps(String.valueOf(Util.getToday()));
             if(ss.size()>0) {
+
+
+                int totalSteps = prefs.getInt("totalSteps", 0);
+                totalSteps_txt.setText(String.valueOf(totalSteps + ss.get(0).steps));
+                prefs.edit().putInt("totalSteps", totalSteps + ss.get(0).steps);
+
+
                 tvSteps.setText(String.valueOf(ss.get(0).steps));
                 stepCount = ss.get(0).steps;
 
@@ -281,5 +425,11 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
 
 
 
+    int getYear(Date date1,Date date2){
+        SimpleDateFormat simpleDateformat=new SimpleDateFormat("yyyy");
+        int year=Integer.parseInt(simpleDateformat.format(date1));
 
+        return Integer.parseInt(simpleDateformat.format(date2))- Integer.parseInt(simpleDateformat.format(date1));
+
+    }
 }
