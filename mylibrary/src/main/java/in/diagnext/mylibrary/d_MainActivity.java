@@ -152,7 +152,7 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
          String text="Target to achieve discount for "+String.valueOf(differenceYr)+" year";
          targetAchive_txt.setText(text);
 
-         DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
+         DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
          String strFromDate = dateFormat.format(dateStart);
          String strToDate= dateFormat.format(dateEnd);
 
