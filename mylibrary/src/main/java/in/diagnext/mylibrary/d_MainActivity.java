@@ -104,6 +104,7 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
     private String userId;
     private StepsView indicatorSteps;
     private int differenceYr=0;
+    private TextView targetAchive_txt;
 
 
     @Override
@@ -129,7 +130,7 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
         policyStart_txt= (TextView)findViewById(R.id.policyStart_txt);
         policyExp_txt= (TextView)findViewById(R.id.policyExp_txt);
         indicatorSteps=(xyz.gracefulife.stepindicator.StepsView)findViewById(R.id.step_view);
-
+        targetAchive_txt=(TextView)findViewById(R.id.targetAchive_txt);
 
         prefs = getSharedPreferences("pedometer", Context.MODE_PRIVATE);
         height = prefs.getString("height","175");
@@ -147,6 +148,9 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
          Date dateStart = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(policyStarts);
          Date dateEnd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(policyExp);
          differenceYr=getYear(dateStart,dateEnd);
+         String text="Target to achieve discount for "+String.valueOf(differenceYr)+" year";
+         targetAchive_txt.setText(text);
+
      }
      catch (Exception ex)
      {
@@ -160,31 +164,31 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
      }
         if(differenceYr <=1) {
             if (totalSteps >= 1200000)
-                indicatorSteps.setLabels(new String[]{"1,200,000 \n (3%)", "1,600,000 \n (5%)", "2,000,000 \n (7%)", "2,500,000 \n (10%)"})
+                indicatorSteps.setLabels(new String[]{"1,200,000 \n 3%", "1,600,000 \n 5%", "2,000,000 \n 7%", "2,500,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(1)
                         .drawView();
             else if (totalSteps >= 1600000)
-                indicatorSteps.setLabels(new String[]{"1,200,000 \n (3%)", "1,600,000 \n (5%)", "2,000,000 \n (7%)", "2,500,000 \n (10%)"})
+                indicatorSteps.setLabels(new String[]{"1,200,000 \n 3%", "1,600,000 \n 5%", "2,000,000 \n 7%", "2,500,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(2)
                         .drawView();
             else if (totalSteps >= 2000000)
-                indicatorSteps.setLabels(new String[]{"1,200,000 \n (3%)", "1,600,000 \n (5%)", "2,000,000 \n (7%)", "2,500,000 \n (10%)"})
+                indicatorSteps.setLabels(new String[]{"1,200,000 \n 3%", "1,600,000 \n 5%", "2,000,000 \n 7%", "2,500,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(3)
                         .drawView();
             else if (totalSteps >= 2500000)
-                indicatorSteps.setLabels(new String[]{"1,200,000 \n (3%)", "1,600,000 \n (5%)", "2,000,000 \n (7%)", "2,500,000 \n (10%)"})
+                indicatorSteps.setLabels(new String[]{"1,200,000 \n 3%", "1,600,000 \n 5%", "2,000,000 \n 7%", "2,500,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(4)
                         .drawView();
             else
-                indicatorSteps.setLabels(new String[]{"1,200,000 \n (3%)", "1,600,000 \n (5%)", "2,000,000 \n (7%)", "2,500,000 \n (10%)"})
+                indicatorSteps.setLabels(new String[]{"1,200,000 \n 3%", "1,600,000 \n 5%", "2,000,000 \n 7%", "2,500,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(0)
@@ -192,31 +196,31 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
         }
         else if(differenceYr ==2) {
             if (totalSteps >= 2520000)
-                indicatorSteps.setLabels(new String[]{"2,520,000 \n (3%)", "3,360,000 \n (5%)", "4,200,000 \n (7%)", "5,200,000 \n (10%)"})
+                indicatorSteps.setLabels(new String[]{"2,520,000 \n 3%", "3,360,000 \n 5%", "4,200,000 \n 7%", "5,200,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(1)
                         .drawView();
             else if (totalSteps >= 3360000)
-                indicatorSteps.setLabels(new String[]{"2,520,000 \n (3%)", "3,360,000 \n (5%)", "4,200,000 \n (7%)", "5,200,000 \n (10%)"})
+                indicatorSteps.setLabels(new String[]{"2,520,000 \n 3%", "3,360,000 \n 5%", "4,200,000 \n 7%", "5,200,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(2)
                         .drawView();
             else if (totalSteps >= 4200000)
-                indicatorSteps.setLabels(new String[]{"2,520,000 \n (3%)", "3,360,000 \n (5%)", "4,200,000 \n (7%)", "5,200,000 \n (10%)"})
+                indicatorSteps.setLabels(new String[]{"2,520,000 \n 3%", "3,360,000 \n 5%", "4,200,000 \n 7%", "5,200,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(3)
                         .drawView();
             else if (totalSteps >= 5200000)
-                indicatorSteps.setLabels(new String[]{"2,520,000 \n (3%)", "3,360,000 \n (5%)", "4,200,000 \n (7%)", "5,200,000 \n (10%)"})
+                indicatorSteps.setLabels(new String[]{"2,520,000 \n 3%", "3,360,000 \n 5%", "4,200,000 \n 7%", "5,200,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(4)
                         .drawView();
             else
-                indicatorSteps.setLabels(new String[]{"2,520,000 \n (3%)", "3,360,000 \n (5%)", "4,200,000 \n (7%)", "5,200,000 \n (10%)"})
+                indicatorSteps.setLabels(new String[]{"2,520,000 \n 3%", "3,360,000 \n 5%", "4,200,000 \n 7%", "5,200,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(0)
@@ -224,31 +228,31 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
         }
         else if(differenceYr ==3) {
             if (totalSteps >= 4200000)
-                indicatorSteps.setLabels(new String[]{"4,200,000 \n (3%)", "5,600,000 \n (5%)", "7,000,000 \n (7%)", "8,000,000 \n (10%)"})
+                indicatorSteps.setLabels(new String[]{"4,200,000 \n 3%", "5,600,000 \n 5%", "7,000,000 \n 7%", "8,000,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(1)
                         .drawView();
             else if (totalSteps >= 5600000)
-                indicatorSteps.setLabels(new String[]{"4,200,000 \n (3%)", "5,600,000 \n (5%)", "7,000,000 \n (7%)", "8,000,000 \n (10%)"})
+                indicatorSteps.setLabels(new String[]{"4,200,000 \n 3%", "5,600,000 \n 5%", "7,000,000 \n 7%", "8,000,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(2)
                         .drawView();
             else if (totalSteps >= 7000000)
-                indicatorSteps.setLabels(new String[]{"4,200,000 \n (3%)", "5,600,000 \n (5%)", "7,000,000 \n (7%)", "8,000,000 \n (10%)"})
+                indicatorSteps.setLabels(new String[]{"4,200,000 \n 3%", "5,600,000 \n 5%", "7,000,000 \n 7%", "8,000,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(3)
                         .drawView();
             else if (totalSteps >= 8000000)
-                indicatorSteps.setLabels(new String[]{"4,200,000 \n (3%)", "5,600,000 \n (5%)", "7,000,000 \n (7%)", "8,000,000 \n (10%)"})
+                indicatorSteps.setLabels(new String[]{"4,200,000 \n 3%", "5,600,000 \n 5%", "7,000,000 \n 7%", "8,000,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(4)
                         .drawView();
             else
-                indicatorSteps.setLabels(new String[]{"4,200,000 \n (3%)", "5,600,000 \n (5%)", "7,000,000 \n (7%)", "8,000,000 \n (10%)"})
+                indicatorSteps.setLabels(new String[]{"4,200,000 \n 3%", "5,600,000 \n 5%", "7,000,000 \n 7%", "8,000,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(0)
