@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -150,6 +151,14 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
          differenceYr=getYear(dateStart,dateEnd);
          String text="Target to achieve discount for "+String.valueOf(differenceYr)+" year";
          targetAchive_txt.setText(text);
+
+         DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
+         String strFromDate = dateFormat.format(dateStart);
+         String strToDate= dateFormat.format(dateEnd);
+
+         policyStart_txt.setText("Policy Start date : " +strFromDate);
+         policyExp_txt.setText("Policy Exp date : " +strToDate);
+
 
      }
      catch (Exception ex)
