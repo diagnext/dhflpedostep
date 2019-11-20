@@ -60,7 +60,7 @@ public class d_OTPActivity extends AppCompatActivity {
                 if(otp.equals(pinview.getValue())) {
 
                     pd = new ProgressDialog(d_OTPActivity.this);
-                    pd.setTitle("Fetching Profile...");
+                    pd.setTitle("Fetching profile...");
                     pd.setMessage("Please wait.");
                     pd.setCancelable(false);
                     pd.show();

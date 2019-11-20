@@ -14,10 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/MyLibTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".d_UserLogin"
+        <activity android:name=".d_bmiActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyLibTheme.NoActionBar"/>
+        <activity
+            android:name=".d_UserLogin"
             android:screenOrientation="portrait"
             android:theme="@style/MyLibTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible"></activity>
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".d_MainActivity"
             android:screenOrientation="portrait"
@@ -69,7 +73,7 @@
         <activity
             android:name=".d_WelcomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyLibTheme.NoActionBar"></activity>
+            android:theme="@style/MyLibTheme.NoActionBar" />
     </application>
 
 </manifest>

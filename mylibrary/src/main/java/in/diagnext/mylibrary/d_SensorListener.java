@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -48,6 +49,7 @@ public class d_SensorListener extends Service implements SensorEventListener, d_
 
     private Handler mHandler = new Handler();
     private Timer mTimer = null;
+    private SharedPreferences prefs1;
 
     public d_SensorListener() {
 
@@ -56,6 +58,7 @@ public class d_SensorListener extends Service implements SensorEventListener, d_
     @Override
     public void onCreate() {
         super.onCreate();
+
 
         if(mTimer != null) {
             mTimer.cancel();
@@ -273,12 +276,38 @@ public class d_SensorListener extends Service implements SensorEventListener, d_
 
     private void pushSteps() throws Exception {
 
-        prefs = getSharedPreferences("pedometer", Context.MODE_PRIVATE);
-        userId = prefs.getString("userId", "");
+        prefs = getSharedPreferences("pedo", Context.MODE_PRIVATE);
+        prefs1 = getSharedPreferences("pedometer", Context.MODE_PRIVATE);
+
+        int stepCount=0;
+        ArrayList<d_StepMaster> ss =new ArrayList<>();
+        d_Database data=new d_Database(this);
+        ss= data.getSteps(String.valueOf(Util.getToday()));
+        if(ss.size()>0) {
+            stepCount = ss.get(0).steps;
+
+        }
+        int dbstep = getTotalCount();
+
+        int pushCount = 0;
+        int saveSteps = prefs.getInt("saveSteps", 0);
+        if(saveSteps<stepCount)
+         pushCount = dbstep+(stepCount-saveSteps);
+        else
+            pushCount = dbstep;
+
+        prefs.edit().putInt("saveSteps", Integer.valueOf(stepCount)).commit();
+
+        prefs1.edit().putInt("totalSteps", Integer.valueOf(pushCount)).commit();
+
+
+
+
+        userId = prefs1.getString("userId", "");
         // form parameters
         RequestBody formBody = new FormBody.Builder()
                 .add("member_id", userId)
-                .add("step_count", String.valueOf(prefs.getInt("totalSteps", 0)))
+                .add("step_count", String.valueOf(pushCount))
                 .build();
 
         Request request = new Request.Builder()
@@ -289,7 +318,7 @@ public class d_SensorListener extends Service implements SensorEventListener, d_
                 .build();
 
         // httpClient.newBuilder().connectTimeout(5, TimeUnit.MINUTES);
-        d_Data data;
+        d_Data data1;
         String message, code;
         try (ResponseBody response = httpClient.newCall(request).execute().body()) {
 
@@ -302,10 +331,58 @@ public class d_SensorListener extends Service implements SensorEventListener, d_
             d_loginEntity entity = gson.fromJson(results, d_loginEntity.class);
 
             message = entity.getMessage();
-            data = entity.getData();
+            data1 = entity.getData();
             code = entity.getCode();
 
         }
+    }
+
+    public int getTotalCount()
+    {
+
+        prefs1 = getSharedPreferences("pedometer", Context.MODE_PRIVATE);
+
+        d_Data data = null;
+        String message,code = null;
+        int count = 0;
+        // form parameters
+        RequestBody formBody = new FormBody.Builder()
+                .add("member_id", prefs1.getString("member_id", "0000"))
+                .add("password", prefs1.getString("password", "0000"))
+                .build();
+
+        Request request = new Request.Builder()
+                .url("https://devapi.dhflgi.com/health/api/pedometer/member/login")
+                .addHeader("username", "cococure_partner")
+                .addHeader("password", "JWGnYDJw7k4YEnxy")
+                .post(formBody)
+                .build();
+
+        // httpClient.newBuilder().connectTimeout(5, TimeUnit.MINUTES);
+
+        try (ResponseBody response = httpClient.newCall(request).execute().body()) {
+
+            //if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            String results = response.string();
+            results= results.replace(",\"data\":\"No member found\"","");
+
+            Gson gson = new Gson();
+            d_loginEntity entity = gson.fromJson(results, d_loginEntity.class);
+
+            message=entity.getMessage();
+            data= entity.getData();
+            code=entity.getCode();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(code.equals("1")) {
+
+            count = Integer.valueOf(data.getStep_count());
+        }
+        return count;
     }
 
     }

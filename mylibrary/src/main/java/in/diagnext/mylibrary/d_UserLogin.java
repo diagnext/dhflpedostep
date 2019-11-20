@@ -199,14 +199,20 @@ public class d_UserLogin extends AppCompatActivity {
                 }
             });
 
-            gender = true;
+            gender = false;
+            if(data.getGender().equals("Male"))
+                gender = true;
             prefs = getSharedPreferences("pedometer", 0);
             SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("member_id", uName);
+            editor.putString("password", pWord);
             editor.putString("logged", "userlogged");
             editor.putString("userId", data.getMember_id());
             editor.putBoolean("gender", gender);
-            editor.putString("height", "175");
-            editor.putString("weight", "78");
+            editor.putString("height", data.getHeight());
+            editor.putString("weight", data.getWeight());
+            editor.putString("age",data.getAge());
+            editor.putString("name",data.getName());
             editor.putInt("totalSteps", Integer.valueOf(data.getStep_count()));
             editor.putString("policyStart", data.getPolicy_start_date());
             editor.putString("policyExp", data.getPolicy_end_date());

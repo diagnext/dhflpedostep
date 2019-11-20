@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,21 +45,16 @@ public class d_MoreActivity extends AppCompatActivity {
                 Intent intent = new Intent(d_MoreActivity.this, d_MainActivity.class);
                 startActivity(intent);
                 finish();
-            }
-            else if (item.getItemId() == R.id.navigation_report)
-            {
+            } else if (item.getItemId() == R.id.navigation_report) {
                 Intent intent1 = new Intent(d_MoreActivity.this, d_GraphActivity.class);
                 startActivity(intent1);
                 finish();
-            }
-            else if (item.getItemId() == R.id.navigation_health) {
-                Intent intent2 = new Intent(d_MoreActivity.this, d_HealthActivity.class);
+            } else if (item.getItemId() == R.id.navigation_health) {
+                Intent intent2 = new Intent(d_MoreActivity.this, d_bmiActivity.class);
                 startActivity(intent2);
                 finish();
-            }
-            else if (item.getItemId() == R.id.navigation_more)
-            {
-                Intent intent3=new Intent(d_MoreActivity.this, d_MoreActivity.class);
+            } else if (item.getItemId() == R.id.navigation_more) {
+                Intent intent3 = new Intent(d_MoreActivity.this, d_MoreActivity.class);
                 startActivity(intent3);
                 finish();
             }
@@ -80,13 +76,22 @@ public class d_MoreActivity extends AppCompatActivity {
     private Spinner gender_ddl;
     private TextView title_txt;
     private SharedPreferences pedosetting;
+    private String age;
+    private TextView dp_txtAge;
+    private TextView dp_txtGender;
+    private TextView dp_txtHeight;
+    private TextView dp_txtWeight;
+    private TextView txtMemberId_dp;
+    private TextView txtUser_dp;
+    private String name;
+    private ImageView profileImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.diag_activity_more);
 
-        setTitle("More");
+        setTitle("profile");
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -97,7 +102,45 @@ public class d_MoreActivity extends AppCompatActivity {
         MenuItem mItem = menu.getItem(3);
         mItem.setChecked(true);
 
-        dref = FirebaseDatabase.getInstance().getReference().child("d_UserMaster");
+        userPref = getSharedPreferences("pedometer", Context.MODE_PRIVATE);
+        age = userPref.getString("age", "24");
+        userId = userPref.getString("userId", "0000");
+        gender = userPref.getBoolean("gender", true);
+        height = userPref.getString("height", "175");
+        weight = userPref.getString("weight", "75");
+        name = userPref.getString("name", "UNKNOWN");
+
+
+        dp_txtAge=(TextView)findViewById(R.id.dp_txtAge);
+        dp_txtGender=(TextView)findViewById(R.id.dp_txtGender);
+        dp_txtHeight=(TextView)findViewById(R.id.dp_txtHeight);
+        dp_txtWeight=(TextView)findViewById(R.id.dp_txtWeight);
+        txtUser_dp=(TextView)findViewById(R.id.txtUser_dp);
+        txtMemberId_dp=(TextView)findViewById(R.id.txtMemberId_dp);
+        profileImg=(ImageView)findViewById(R.id.profileImg);
+
+        dp_txtAge.setText(age + " Years");
+        String _gender = "Female";
+        profileImg.setImageDrawable(getResources().getDrawable(R.drawable.girl));
+
+        if(gender) {
+            _gender = "Male";
+            profileImg.setImageDrawable(getResources().getDrawable(R.drawable.boy));
+        }
+        dp_txtGender.setText(_gender);
+        dp_txtHeight.setText(height + " Cms");
+        dp_txtWeight.setText(weight + " Kgs");
+        txtMemberId_dp.setText("MEMBER ID : "+userId);
+        if(name.equals(""))
+            txtUser_dp.setText("UNKNOWN");
+        else
+        txtUser_dp.setText(name);
+    }
+}
+
+
+
+/*dref = FirebaseDatabase.getInstance().getReference().child("d_UserMaster");
 
         pedosetting = getSharedPreferences("pedosetting", Context.MODE_PRIVATE);
         goalStep = pedosetting.getInt("goalSteps", 500);
@@ -358,4 +401,5 @@ public class d_MoreActivity extends AppCompatActivity {
 
         dlg.show();
     }
-}
+
+    */

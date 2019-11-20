@@ -17,6 +17,12 @@ private String policy_end_date;
 private String created_at;
 private String updated_at;
 private String member_id;
+    private String age;
+    private String dob;
+    private String gender;
+    private String height;
+    private String name;
+    private String weight;
 
 
 // Getter Methods
@@ -150,4 +156,52 @@ public void setUpdated_at( String updated_at ) {
 public void setMember_id( String member_id ) {
     this.member_id = member_id;
 }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
 }

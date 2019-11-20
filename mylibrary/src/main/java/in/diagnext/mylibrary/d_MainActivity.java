@@ -12,6 +12,7 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.circularreveal.CircularRevealGridLayout;
 import com.google.gson.Gson;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -66,6 +68,7 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
     private TextView totalSteps_txt;
     private TextView policyStart_txt;
     private TextView policyExp_txt;
+    private final OkHttpClient httpClient = new OkHttpClient();
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -87,7 +90,7 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
                 return true;
             }
             else if (item.getItemId() == R.id.navigation_health) {
-                Intent intent2 = new Intent(d_MainActivity.this, d_HealthActivity.class);
+                Intent intent2 = new Intent(d_MainActivity.this, d_bmiActivity.class);
                 startActivity(intent2);
                 finish();
                 return true;
@@ -106,6 +109,13 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
     private StepsView indicatorSteps;
     private int differenceYr=0;
     private TextView targetAchive_txt;
+    private ImageView distance_IMG;
+    private ImageView calories_IMG;
+    private ImageView clock_IMG;
+    private CircularRevealGridLayout grdImages;
+    private String uName;
+    private String pWord;
+    private int dbSteps;
 
 
     @Override
@@ -132,16 +142,24 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
         policyExp_txt= (TextView)findViewById(R.id.policyExp_txt);
         indicatorSteps=(xyz.gracefulife.stepindicator.StepsView)findViewById(R.id.step_view);
         targetAchive_txt=(TextView)findViewById(R.id.targetAchive_txt);
+        distance_IMG = (ImageView) findViewById(R.id.distance_IMG);
+        calories_IMG = (ImageView) findViewById(R.id.calories_IMG);
+        clock_IMG = (ImageView) findViewById(R.id.clock_IMG);
+        grdImages = (com.google.android.material.circularreveal.CircularRevealGridLayout)findViewById(R.id.grdImages);
 
         prefs = getSharedPreferences("pedometer", Context.MODE_PRIVATE);
         height = prefs.getString("height","175");
-        userId = prefs.getString("userId", "");
+        userId = prefs.getString("userId", "0000");
         int totalSteps = prefs.getInt("totalSteps", 0);
         totalSteps_txt.setText(String.valueOf(totalSteps));
         policyStart_txt.setText("Policy Start date : " +prefs.getString("policyStart", ""));
         policyExp_txt.setText("Policy Exp date : " +prefs.getString("policyExp", ""));
 
-
+        distance_IMG.setScaleType(ImageView.ScaleType.FIT_XY);
+        calories_IMG.setScaleType(ImageView.ScaleType.FIT_XY);
+        clock_IMG.setScaleType(ImageView.ScaleType.FIT_XY);
+      //  calories_tv = (TextView) findViewById(R.id.calories_tv);
+      //  time_tv = (TextView) findViewById(R.id.time_tv);
 
         String policyStarts = prefs.getString("policyStart", "");
         String policyExp = prefs.getString("policyExp", "");
@@ -173,31 +191,31 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
      }
         if(differenceYr <=1) {
             if (totalSteps >= 1200000)
-                indicatorSteps.setLabels(new String[]{"1,200,000 \n 3%", "1,600,000 \n 5%", "2,000,000 \n 7%", "2,500,000 \n 10%"})
+                indicatorSteps.setLabels(new String[]{"1,200,000 \n 3%", "1,500,000 \n 5%", "2,000,000 \n 7%", "2,500,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(1)
                         .drawView();
             else if (totalSteps >= 1600000)
-                indicatorSteps.setLabels(new String[]{"1,200,000 \n 3%", "1,600,000 \n 5%", "2,000,000 \n 7%", "2,500,000 \n 10%"})
+                indicatorSteps.setLabels(new String[]{"1,200,000 \n 3%", "1,500,000 \n 5%", "2,000,000 \n 7%", "2,500,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(2)
                         .drawView();
             else if (totalSteps >= 2000000)
-                indicatorSteps.setLabels(new String[]{"1,200,000 \n 3%", "1,600,000 \n 5%", "2,000,000 \n 7%", "2,500,000 \n 10%"})
+                indicatorSteps.setLabels(new String[]{"1,200,000 \n 3%", "1,500,000 \n 5%", "2,000,000 \n 7%", "2,500,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(3)
                         .drawView();
             else if (totalSteps >= 2500000)
-                indicatorSteps.setLabels(new String[]{"1,200,000 \n 3%", "1,600,000 \n 5%", "2,000,000 \n 7%", "2,500,000 \n 10%"})
+                indicatorSteps.setLabels(new String[]{"1,200,000 \n 3%", "1,500,000 \n 5%", "2,000,000 \n 7%", "2,500,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(4)
                         .drawView();
             else
-                indicatorSteps.setLabels(new String[]{"1,200,000 \n 3%", "1,600,000 \n 5%", "2,000,000 \n 7%", "2,500,000 \n 10%"})
+                indicatorSteps.setLabels(new String[]{"1,200,000 \n 3%", "1,500,000 \n 5%", "2,000,000 \n 7%", "2,500,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(0)
@@ -205,31 +223,31 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
         }
         else if(differenceYr ==2) {
             if (totalSteps >= 2520000)
-                indicatorSteps.setLabels(new String[]{"2,520,000 \n 3%", "3,360,000 \n 5%", "4,200,000 \n 7%", "5,200,000 \n 10%"})
+                indicatorSteps.setLabels(new String[]{"2,520,000 \n 3%", "3,120,000 \n 5%", "4,160,000 \n 7%", "5,200,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(1)
                         .drawView();
             else if (totalSteps >= 3360000)
-                indicatorSteps.setLabels(new String[]{"2,520,000 \n 3%", "3,360,000 \n 5%", "4,200,000 \n 7%", "5,200,000 \n 10%"})
+                indicatorSteps.setLabels(new String[]{"2,520,000 \n 3%", "3,120,000 \n 5%", "4,160,000 \n 7%", "5,200,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(2)
                         .drawView();
             else if (totalSteps >= 4200000)
-                indicatorSteps.setLabels(new String[]{"2,520,000 \n 3%", "3,360,000 \n 5%", "4,200,000 \n 7%", "5,200,000 \n 10%"})
+                indicatorSteps.setLabels(new String[]{"2,520,000 \n 3%", "3,120,000 \n 5%", "4,160,000 \n 7%", "5,200,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(3)
                         .drawView();
             else if (totalSteps >= 5200000)
-                indicatorSteps.setLabels(new String[]{"2,520,000 \n 3%", "3,360,000 \n 5%", "4,200,000 \n 7%", "5,200,000 \n 10%"})
+                indicatorSteps.setLabels(new String[]{"2,520,000 \n 3%", "3,120,000 \n 5%", "4,160,000 \n 7%", "5,200,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(4)
                         .drawView();
             else
-                indicatorSteps.setLabels(new String[]{"2,520,000 \n 3%", "3,360,000 \n 5%", "4,200,000 \n 7%", "5,200,000 \n 10%"})
+                indicatorSteps.setLabels(new String[]{"2,520,000 \n 3%", "3,120,000 \n 5%", "4,160,000 \n 7%", "5,200,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(0)
@@ -237,35 +255,44 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
         }
         else if(differenceYr ==3) {
             if (totalSteps >= 4200000)
-                indicatorSteps.setLabels(new String[]{"4,200,000 \n 3%", "5,600,000 \n 5%", "7,000,000 \n 7%", "8,000,000 \n 10%"})
+                indicatorSteps.setLabels(new String[]{"4,200,000 \n 3%", "4,800,000 \n 5%", "6,400,000 \n 7%", "8,000,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(1)
                         .drawView();
             else if (totalSteps >= 5600000)
-                indicatorSteps.setLabels(new String[]{"4,200,000 \n 3%", "5,600,000 \n 5%", "7,000,000 \n 7%", "8,000,000 \n 10%"})
+                indicatorSteps.setLabels(new String[]{"4,200,000 \n 3%", "4,800,000 \n 5%", "6,400,000 \n 7%", "8,000,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(2)
                         .drawView();
             else if (totalSteps >= 7000000)
-                indicatorSteps.setLabels(new String[]{"4,200,000 \n 3%", "5,600,000 \n 5%", "7,000,000 \n 7%", "8,000,000 \n 10%"})
+                indicatorSteps.setLabels(new String[]{"4,200,000 \n 3%", "4,800,000 \n 5%", "6,400,000 \n 7%", "8,000,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(3)
                         .drawView();
             else if (totalSteps >= 8000000)
-                indicatorSteps.setLabels(new String[]{"4,200,000 \n 3%", "5,600,000 \n 5%", "7,000,000 \n 7%", "8,000,000 \n 10%"})
+                indicatorSteps.setLabels(new String[]{"4,200,000 \n 3%", "4,800,000 \n 5%", "6,400,000 \n 7%", "8,000,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(4)
                         .drawView();
             else
-                indicatorSteps.setLabels(new String[]{"4,200,000 \n 3%", "5,600,000 \n 5%", "7,000,000 \n 7%", "8,000,000 \n 10%"})
+                indicatorSteps.setLabels(new String[]{"4,200,000 \n 3%", "4,800,000 \n 5%", "6,400,000 \n 7%", "8,000,000 \n 10%"})
                         .setProgressColorIndicator(ContextCompat.getColor(this, R.color.yellow))
                         .setBarColorIndicator(ContextCompat.getColor(this, R.color.white))
                         .setCompletedPosition(0)
                         .drawView();
+
+
+
+
+           uName= prefs.getString("uName", "0000");
+           pWord = prefs.getString("pWord", "0000");
+
+          // dbSteps = getTotalCount();
+
         }
     }
 
@@ -351,9 +378,10 @@ catch (Exception ex)
             if(ss.size()>0) {
 
 
-                int totalSteps = prefs.getInt("totalSteps", 0);
-                totalSteps_txt.setText(String.valueOf(totalSteps + ss.get(0).steps));
-                prefs.edit().putInt("totalSteps", totalSteps + ss.get(0).steps);
+
+                totalSteps_txt.setText(String.valueOf(prefs.getInt("totalSteps",0)));
+            //    prefs.edit().putInt("pushSteps", Integer.valueOf(totalSteps_txt.getText().toString())).commit();
+
 
 
                 tvSteps.setText(String.valueOf(ss.get(0).steps));
@@ -444,5 +472,50 @@ catch (Exception ex)
 
         return Integer.parseInt(simpleDateformat.format(date2))- Integer.parseInt(simpleDateformat.format(date1));
 
+    }
+
+    public int getTotalCount()
+    {
+        d_Data data = null;
+        String message,code = null;
+        int count = 0;
+        // form parameters
+        RequestBody formBody = new FormBody.Builder()
+                .add("member_id", uName)
+                .add("password", pWord)
+                .build();
+
+        Request request = new Request.Builder()
+                .url("https://devapi.dhflgi.com/health/api/pedometer/member/login")
+                .addHeader("username", "cococure_partner")
+                .addHeader("password", "JWGnYDJw7k4YEnxy")
+                .post(formBody)
+                .build();
+
+        // httpClient.newBuilder().connectTimeout(5, TimeUnit.MINUTES);
+
+        try (ResponseBody response = httpClient.newCall(request).execute().body()) {
+
+            //if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            String results = response.string();
+            results= results.replace(",\"data\":\"No member found\"","");
+
+            Gson gson = new Gson();
+            d_loginEntity entity = gson.fromJson(results, d_loginEntity.class);
+
+            message=entity.getMessage();
+            data= entity.getData();
+            code=entity.getCode();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(code.equals("1")) {
+
+            count = Integer.valueOf(data.getStep_count());
+        }
+        return count;
     }
 }

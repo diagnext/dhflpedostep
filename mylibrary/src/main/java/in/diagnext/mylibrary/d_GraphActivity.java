@@ -46,7 +46,7 @@ public class d_GraphActivity extends AppCompatActivity {
                 finish();
             }
             else if (item.getItemId() == R.id.navigation_health) {
-                Intent intent2 = new Intent(d_GraphActivity.this, d_HealthActivity.class);
+                Intent intent2 = new Intent(d_GraphActivity.this, d_bmiActivity.class);
                 startActivity(intent2);
                 finish();
             }
