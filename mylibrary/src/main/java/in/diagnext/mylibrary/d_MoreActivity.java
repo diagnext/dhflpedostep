@@ -108,7 +108,7 @@ public class d_MoreActivity extends AppCompatActivity {
         gender = userPref.getBoolean("gender", true);
         height = userPref.getString("height", "175");
         weight = userPref.getString("weight", "75");
-        name = userPref.getString("name", "UNKNOWN");
+        name = userPref.getString("name", "");
 
 
         dp_txtAge=(TextView)findViewById(R.id.dp_txtAge);
@@ -131,9 +131,7 @@ public class d_MoreActivity extends AppCompatActivity {
         dp_txtHeight.setText(height + " Cms");
         dp_txtWeight.setText(weight + " Kgs");
         txtMemberId_dp.setText("MEMBER ID : "+userId);
-        if(name.equals(""))
-            txtUser_dp.setText("UNKNOWN");
-        else
+
         txtUser_dp.setText(name);
     }
 }

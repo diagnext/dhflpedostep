@@ -200,8 +200,10 @@ public class d_UserLogin extends AppCompatActivity {
             });
 
             gender = false;
-            if(data.getGender().equals("Male"))
-                gender = true;
+            if(data.getGender()!=null) {
+                if (data.getGender().equals("Male"))
+                    gender = true;
+            }
             prefs = getSharedPreferences("pedometer", 0);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("member_id", uName);

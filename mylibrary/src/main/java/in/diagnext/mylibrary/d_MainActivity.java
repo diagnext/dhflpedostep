@@ -174,8 +174,8 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
          String strFromDate = dateFormat.format(dateStart);
          String strToDate= dateFormat.format(dateEnd);
 
-         policyStart_txt.setText("Policy Start date : " +strFromDate);
-         policyExp_txt.setText("Policy Exp date : " +strToDate);
+         policyStart_txt.setText("Target/Policy Start date : " +strFromDate);
+         policyExp_txt.setText("Target/Policy End date : " +strToDate);
 
 
      }
