@@ -167,15 +167,15 @@ public class d_MainActivity extends AppCompatActivity  implements SensorEventLis
          Date dateStart = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(policyStarts);
          Date dateEnd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(policyExp);
          differenceYr=getYear(dateStart,dateEnd);
-         String text="Target to achieve discount for "+String.valueOf(differenceYr)+" year";
+         String text="Target to achieve discount in "+String.valueOf(differenceYr)+" year";
          targetAchive_txt.setText(text);
 
          DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
          String strFromDate = dateFormat.format(dateStart);
          String strToDate= dateFormat.format(dateEnd);
 
-         policyStart_txt.setText("Target/Policy Start date : " +strFromDate);
-         policyExp_txt.setText("Target/Policy End date : " +strToDate);
+         policyStart_txt.setText("Target / Policy Start date : " +strFromDate);
+         policyExp_txt.setText("Target / Policy End date : " +strToDate);
 
 
      }
