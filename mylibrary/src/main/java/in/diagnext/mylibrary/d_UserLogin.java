@@ -167,9 +167,9 @@ public class d_UserLogin extends AppCompatActivity {
                 .build();
 
         Request request = new Request.Builder()
-                .url("https://devapi.dhflgi.com/health/api/pedometer/member/login")
-                .addHeader("username", "cococure_partner")
-                .addHeader("password", "JWGnYDJw7k4YEnxy")
+                .url("https://api.dhflgi.com/health/api/pedometer/member/login")
+                .addHeader("username", "cococure_pedometer")
+                .addHeader("password", "25ttgHY2uSgjEb6ctesdf")
                 .post(formBody)
                 .build();
 

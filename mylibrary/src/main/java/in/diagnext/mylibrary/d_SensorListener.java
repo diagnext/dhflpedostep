@@ -311,9 +311,9 @@ public class d_SensorListener extends Service implements SensorEventListener, d_
                 .build();
 
         Request request = new Request.Builder()
-                .url("https://devapi.dhflgi.com/health/api/pedometer/member/update/stepcount")
-                .addHeader("username", "cococure_partner")
-                .addHeader("password", "JWGnYDJw7k4YEnxy")
+                .url("https://api.dhflgi.com/health/api/pedometer/member/update/stepcount")
+                .addHeader("username", "cococure_pedometer")
+                .addHeader("password", "25ttgHY2uSgjEb6ctesdf")
                 .post(formBody)
                 .build();
 
@@ -352,9 +352,9 @@ public class d_SensorListener extends Service implements SensorEventListener, d_
                 .build();
 
         Request request = new Request.Builder()
-                .url("https://devapi.dhflgi.com/health/api/pedometer/member/login")
-                .addHeader("username", "cococure_partner")
-                .addHeader("password", "JWGnYDJw7k4YEnxy")
+                .url("https://api.dhflgi.com/health/api/pedometer/member/login")
+                .addHeader("username", "cococure_pedometer")
+                .addHeader("password", "25ttgHY2uSgjEb6ctesdf")
                 .post(formBody)
                 .build();
 
